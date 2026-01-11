@@ -1,0 +1,370 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import './map.css';
+
+:root {
+  /* Base Colors */
+  --background: #030712;
+  --background-secondary: #0f172a;
+  --foreground: #f8fafc;
+
+  /* Card Colors */
+  --card-bg: rgba(15, 23, 42, 0.6);
+  --card-bg-solid: #1e293b;
+  --card-border: rgba(51, 65, 85, 0.5);
+
+  /* Accent Gradient */
+  --accent-1: #06b6d4;
+  /* Cyan 500 */
+  --accent-2: #8b5cf6;
+  /* Violet 500 */
+  --accent-3: #ec4899;
+  /* Pink 500 */
+
+  /* Text */
+  --muted: #94a3b8;
+
+  /* Glow */
+  --glow-cyan: rgba(6, 182, 212, 0.4);
+  --glow-violet: rgba(139, 92, 246, 0.4);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes gradient-shift {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shine {
+  from {
+    background-position: 200% center;
+  }
+
+  to {
+    background-position: -200% center;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes border-glow {
+
+  0%,
+  100% {
+    border-color: var(--accent-1);
+  }
+
+  50% {
+    border-color: var(--accent-2);
+  }
+}
+
+/* ===== BASE STYLES ===== */
+@layer base {
+  body {
+    @apply bg-[var(--background)] text-[var(--foreground)] antialiased min-h-screen;
+    background-image:
+      radial-gradient(ellipse 80% 80% at 50% -20%, rgba(6, 182, 212, 0.15), transparent),
+      radial-gradient(ellipse 60% 60% at 100% 100%, rgba(139, 92, 246, 0.1), transparent);
+  }
+
+  ::selection {
+    @apply bg-cyan-500/30 text-cyan-100;
+  }
+}
+
+/* ===== UTILITIES ===== */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-violet-400 to-pink-400;
+  }
+
+  .gradient-text-subtle {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 to-violet-300;
+  }
+
+  /* Animated Gradient Background */
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  /* Float Animation */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Fade In Up */
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out forwards;
+  }
+
+  /* Scale In */
+  .animate-scale-in {
+    animation: scale-in 0.3s ease-out forwards;
+  }
+
+  /* Stagger Delays */
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .delay-500 {
+    animation-delay: 500ms;
+  }
+
+  /* Background Grid Pattern */
+  .bg-grid {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(51 65 85 / 0.3)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+  }
+
+  /* Glow Effects */
+  .glow-cyan {
+    box-shadow: 0 0 40px var(--glow-cyan);
+  }
+
+  .glow-violet {
+    box-shadow: 0 0 40px var(--glow-violet);
+  }
+}
+
+/* ===== COMPONENTS ===== */
+@layer components {
+
+  /* Glass Card - Base */
+  .glass {
+    @apply bg-[var(--card-bg)] backdrop-blur-xl border border-[var(--card-border)] rounded-2xl;
+  }
+
+  /* Glass Card - Interactive */
+  .glass-card {
+    @apply glass transition-all duration-300;
+  }
+
+  /* Glass Card - Hover (NO NESTING - Tailwind compatible) */
+  .glass-card-hover {
+    @apply glass transition-all duration-300 hover:border-cyan-500/50 hover:bg-slate-800/80;
+  }
+
+  /* Separate hover shadow - applied via regular CSS */
+  .glass-card-hover:hover {
+    box-shadow:
+      0 0 0 1px rgba(6, 182, 212, 0.1),
+      0 10px 40px -10px rgba(6, 182, 212, 0.2),
+      0 0 80px -20px rgba(139, 92, 246, 0.15);
+  }
+
+  /* Glass with Gradient Border */
+  .glass-gradient {
+    @apply relative rounded-2xl overflow-hidden;
+  }
+
+  .glass-gradient::before {
+    content: '';
+    @apply absolute inset-0 rounded-2xl p-[1px] -z-10;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+  }
+
+  /* Button - Primary */
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold text-white overflow-hidden transition-all duration-300;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px -10px var(--glow-cyan);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  /* Button - Secondary */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold text-white border border-slate-600 bg-slate-800/50 backdrop-blur-sm transition-all duration-300;
+  }
+
+  .btn-secondary:hover {
+    @apply border-cyan-500/50 bg-slate-700/50;
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.1);
+  }
+
+  /* Button - Ghost */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium text-slate-300 transition-all duration-200;
+  }
+
+  .btn-ghost:hover {
+    @apply text-white bg-slate-800/80;
+  }
+
+  /* Section Title */
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold tracking-tight mb-8 text-white;
+  }
+
+  /* Stat Card */
+  .stat-card {
+    @apply glass p-6 flex flex-col items-center justify-center text-center;
+  }
+
+  .stat-value {
+    @apply text-4xl font-bold mb-2 tracking-tight gradient-text;
+  }
+
+  .stat-label {
+    @apply text-[var(--muted)] text-sm font-medium uppercase tracking-wider;
+  }
+
+  /* Search Input */
+  .search-input {
+    @apply w-full px-5 py-4 pl-12 rounded-2xl bg-slate-800/60 backdrop-blur-xl border border-slate-700/50 text-white placeholder-slate-400 transition-all duration-300 outline-none;
+  }
+
+  .search-input:focus {
+    @apply border-cyan-500/50;
+    box-shadow:
+      0 0 0 4px rgba(6, 182, 212, 0.1),
+      0 0 40px rgba(6, 182, 212, 0.15);
+  }
+
+  /* Speed Meter */
+  .speed-meter {
+    @apply h-2 rounded-full bg-slate-700/50 overflow-hidden;
+  }
+
+  .speed-meter-fill {
+    @apply h-full rounded-full transition-all duration-500;
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  }
+
+  /* Score Badge */
+  .score-badge {
+    @apply px-3 py-1.5 rounded-full text-sm font-bold;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(139, 92, 246, 0.2));
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    color: var(--accent-1);
+  }
+
+  .score-badge-large {
+    @apply w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-bold;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(139, 92, 246, 0.15));
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    color: var(--accent-1);
+  }
+
+  /* Ranking Badge */
+  .rank-badge {
+    @apply w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    color: white;
+  }
+
+  /* Affiliate Cards */
+  .affiliate-card {
+    @apply glass p-6 flex flex-col gap-4 transition-all duration-300 hover:border-cyan-500/50 hover:bg-slate-800/80;
+  }
+
+  .affiliate-card:hover {
+    box-shadow:
+      0 0 0 1px rgba(6, 182, 212, 0.1),
+      0 10px 40px -10px rgba(6, 182, 212, 0.2),
+      0 0 80px -20px rgba(139, 92, 246, 0.15);
+  }
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-700 rounded-full border-[3px] border-slate-900;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-600;
+}
+
+/* ===== FOCUS STYLES ===== */
+:focus-visible {
+  @apply outline-none ring-2 ring-cyan-500/50 ring-offset-2 ring-offset-slate-900;
+}

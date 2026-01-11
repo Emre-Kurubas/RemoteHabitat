@@ -1,0 +1,7 @@
+{
+  "/page": "app/page.js",
+  "/usa/page": "app/usa/page.js",
+  "/usa/[state]/[county]/page": "app/usa/[state]/[county]/page.js",
+  "/icon.png/route": "app/icon.png/route.js",
+  "/usa/[state]/page": "app/usa/[state]/page.js"
+}

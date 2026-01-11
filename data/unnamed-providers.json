@@ -1,0 +1,316 @@
+{
+  "generatedAt": "2026-01-11T02:09:48.717Z",
+  "totalUnnamed": 31,
+  "providers": [
+    {
+      "id": "470102",
+      "frequency": 1,
+      "states": [
+        "Michigan"
+      ],
+      "sampleCounties": [
+        "Huron, Michigan"
+      ]
+    },
+    {
+      "id": "460005",
+      "frequency": 1,
+      "states": [
+        "Michigan"
+      ],
+      "sampleCounties": [
+        "Luce, Michigan"
+      ]
+    },
+    {
+      "id": "520030",
+      "frequency": 1,
+      "states": [
+        "Georgia"
+      ],
+      "sampleCounties": [
+        "Miller, Georgia"
+      ]
+    },
+    {
+      "id": "410184",
+      "frequency": 1,
+      "states": [
+        "Alabama"
+      ],
+      "sampleCounties": [
+        "Monroe, Alabama"
+      ]
+    },
+    {
+      "id": "350116",
+      "frequency": 1,
+      "states": [
+        "Missouri"
+      ],
+      "sampleCounties": [
+        "Callaway, Missouri"
+      ]
+    },
+    {
+      "id": "130619",
+      "frequency": 1,
+      "states": [
+        "Ohio"
+      ],
+      "sampleCounties": [
+        "Ross, Ohio"
+      ]
+    },
+    {
+      "id": "470009",
+      "frequency": 1,
+      "states": [
+        "Oklahoma"
+      ],
+      "sampleCounties": [
+        "Washington, Oklahoma"
+      ]
+    },
+    {
+      "id": "140101",
+      "frequency": 1,
+      "states": [
+        "South Dakota"
+      ],
+      "sampleCounties": [
+        "Perkins, South Dakota"
+      ]
+    },
+    {
+      "id": "380016",
+      "frequency": 1,
+      "states": [
+        "Virginia"
+      ],
+      "sampleCounties": [
+        "Bath, Virginia"
+      ]
+    },
+    {
+      "id": "430199",
+      "frequency": 1,
+      "states": [
+        "Puerto Rico"
+      ],
+      "sampleCounties": [
+        "Cataño Municipio, Puerto Rico"
+      ]
+    },
+    {
+      "id": "131103",
+      "frequency": 1,
+      "states": [
+        "Louisiana"
+      ],
+      "sampleCounties": [
+        "St. John the Baptist Parish, Louisiana"
+      ]
+    },
+    {
+      "id": "230025",
+      "frequency": 1,
+      "states": [
+        "Montana"
+      ],
+      "sampleCounties": [
+        "Cascade, Montana"
+      ]
+    },
+    {
+      "id": "330070",
+      "frequency": 1,
+      "states": [
+        "Montana"
+      ],
+      "sampleCounties": [
+        "Gallatin, Montana"
+      ]
+    },
+    {
+      "id": "190336",
+      "frequency": 1,
+      "states": [
+        "New York"
+      ],
+      "sampleCounties": [
+        "Allegany, New York"
+      ]
+    },
+    {
+      "id": "350091",
+      "frequency": 1,
+      "states": [
+        "North Carolina"
+      ],
+      "sampleCounties": [
+        "Haywood, North Carolina"
+      ]
+    },
+    {
+      "id": "470078",
+      "frequency": 1,
+      "states": [
+        "Oregon"
+      ],
+      "sampleCounties": [
+        "Baker, Oregon"
+      ]
+    },
+    {
+      "id": "390050",
+      "frequency": 1,
+      "states": [
+        "Tennessee"
+      ],
+      "sampleCounties": [
+        "Hawkins, Tennessee"
+      ]
+    },
+    {
+      "id": "130105",
+      "frequency": 1,
+      "states": [
+        "Texas"
+      ],
+      "sampleCounties": [
+        "Kendall, Texas"
+      ]
+    },
+    {
+      "id": "380069",
+      "frequency": 1,
+      "states": [
+        "Utah"
+      ],
+      "sampleCounties": [
+        "Morgan, Utah"
+      ]
+    },
+    {
+      "id": "440190",
+      "frequency": 1,
+      "states": [
+        "Utah"
+      ],
+      "sampleCounties": [
+        "Wasatch, Utah"
+      ]
+    },
+    {
+      "id": "290065",
+      "frequency": 1,
+      "states": [
+        "Nevada"
+      ],
+      "sampleCounties": [
+        "Clark, Nevada"
+      ]
+    },
+    {
+      "id": "390018",
+      "frequency": 1,
+      "states": [
+        "Virginia"
+      ],
+      "sampleCounties": [
+        "Nelson, Virginia"
+      ]
+    },
+    {
+      "id": "190002",
+      "frequency": 1,
+      "states": [
+        "California"
+      ],
+      "sampleCounties": [
+        "Humboldt, California"
+      ]
+    },
+    {
+      "id": "320059",
+      "frequency": 1,
+      "states": [
+        "Idaho"
+      ],
+      "sampleCounties": [
+        "Franklin, Idaho"
+      ]
+    },
+    {
+      "id": "360013",
+      "frequency": 1,
+      "states": [
+        "Louisiana"
+      ],
+      "sampleCounties": [
+        "St. Mary Parish, Louisiana"
+      ]
+    },
+    {
+      "id": "131117",
+      "frequency": 1,
+      "states": [
+        "Texas"
+      ],
+      "sampleCounties": [
+        "Kleberg, Texas"
+      ]
+    },
+    {
+      "id": "300180",
+      "frequency": 1,
+      "states": [
+        "Texas"
+      ],
+      "sampleCounties": [
+        "Uvalde, Texas"
+      ]
+    },
+    {
+      "id": "470122",
+      "frequency": 1,
+      "states": [
+        "Washington"
+      ],
+      "sampleCounties": [
+        "Yakima, Washington"
+      ]
+    },
+    {
+      "id": "330059",
+      "frequency": 1,
+      "states": [
+        "Oregon"
+      ],
+      "sampleCounties": [
+        "Crook, Oregon"
+      ]
+    },
+    {
+      "id": "190126",
+      "frequency": 1,
+      "states": [
+        "Oregon"
+      ],
+      "sampleCounties": [
+        "Douglas, Oregon"
+      ]
+    },
+    {
+      "id": "390099",
+      "frequency": 1,
+      "states": [
+        "Oregon"
+      ],
+      "sampleCounties": [
+        "Jackson, Oregon"
+      ]
+    }
+  ]
+}
