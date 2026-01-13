@@ -2,6 +2,7 @@ import Link from "next/link";
 import dynamic from 'next/dynamic';
 import countiesData from "../../data/counties.json";
 import HomeClient from "./HomeClient";
+import AffiliateSection from "@/components/AffiliateSection";
 
 // Dynamically import US Map to avoid SSR issues
 const USAMap = dynamic(() => import('@/components/USAMap'), { ssr: false });
@@ -276,6 +277,9 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+
+            {/* Affiliate Section */}
+            <AffiliateSection />
 
             {/* CTA Section */}
             <section className="py-24">
