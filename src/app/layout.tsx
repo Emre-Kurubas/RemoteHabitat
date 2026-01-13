@@ -34,6 +34,22 @@ export default function RootLayout({
             <head>
                 <meta name="google-site-verification" content="YxKV2KnqHah1ydifyyPaFWgpS4GDfAnEDXUj1pW5iyE" />
                 <meta name="google-adsense-account" content="ca-pub-5819784431369374" />
+
+                {/* Google Analytics 4 */}
+                <Script
+                    src="https://www.googletagmanager.com/gtag/js?id=G-ZH8L6BZFN6"
+                    strategy="afterInteractive"
+                />
+                <Script id="google-analytics" strategy="afterInteractive">
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-ZH8L6BZFN6');
+                    `}
+                </Script>
+
+                {/* Google AdSense */}
                 <Script
                     async
                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5819784431369374"
@@ -56,11 +72,17 @@ export default function RootLayout({
                             </Link>
 
                             <div className="flex items-center gap-2 sm:gap-6">
-                                <Link href="/" className="btn-ghost hidden sm:flex">
+                                <Link href="/" className="btn-ghost hidden lg:flex">
                                     Home
                                 </Link>
                                 <Link href="/usa/" className="btn-ghost hidden sm:flex">
                                     Browse States
+                                </Link>
+                                <Link href="/compare/" className="btn-ghost hidden md:flex">
+                                    Compare
+                                </Link>
+                                <Link href="/blog/" className="btn-ghost hidden md:flex">
+                                    Blog
                                 </Link>
                                 <Link href="/#explore" className="btn-primary text-sm py-2.5">
                                     Find Your Spot
@@ -101,27 +123,27 @@ export default function RootLayout({
                                 <h4 className="font-semibold text-white mb-5">Resources</h4>
                                 <ul className="space-y-3 text-slate-400">
                                     <li>
-                                        <Link href="#" className="hover:text-cyan-400 transition-colors flex items-center gap-2">
-                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                            </svg>
-                                            Speed Test
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="#" className="hover:text-cyan-400 transition-colors flex items-center gap-2">
+                                        <Link href="/blog/" className="hover:text-cyan-400 transition-colors flex items-center gap-2">
                                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                             </svg>
-                                            Remote Work Guide
+                                            Blog & Guides
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="#" className="hover:text-cyan-400 transition-colors flex items-center gap-2">
+                                        <Link href="/compare/" className="hover:text-cyan-400 transition-colors flex items-center gap-2">
                                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                                             </svg>
-                                            Provider Comparison
+                                            Compare Counties
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="/about/" className="hover:text-cyan-400 transition-colors flex items-center gap-2">
+                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            About Us
                                         </Link>
                                     </li>
                                 </ul>
@@ -131,13 +153,13 @@ export default function RootLayout({
                                 <h4 className="font-semibold text-white mb-5">Legal</h4>
                                 <ul className="space-y-3 text-slate-400">
                                     <li>
-                                        <Link href="#" className="hover:text-cyan-400 transition-colors">Privacy Policy</Link>
+                                        <Link href="/privacy/" className="hover:text-cyan-400 transition-colors">Privacy Policy</Link>
                                     </li>
                                     <li>
-                                        <Link href="#" className="hover:text-cyan-400 transition-colors">Terms of Service</Link>
+                                        <Link href="/terms/" className="hover:text-cyan-400 transition-colors">Terms of Service</Link>
                                     </li>
                                     <li>
-                                        <Link href="#" className="hover:text-cyan-400 transition-colors">Affiliate Disclosure</Link>
+                                        <Link href="/affiliate-disclosure/" className="hover:text-cyan-400 transition-colors">Affiliate Disclosure</Link>
                                     </li>
                                 </ul>
                             </div>

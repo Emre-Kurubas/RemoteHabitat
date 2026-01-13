@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 import countiesData from "../../../../data/counties.json";
 import SearchBar from "@/components/SearchBar";
+import Breadcrumbs, { BreadcrumbSchema } from "@/components/Breadcrumbs";
 
 interface PageProps {
     params: Promise<{
@@ -81,18 +82,15 @@ export default async function StatePage({ params }: PageProps) {
             <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-violet-500/10 rounded-full blur-[100px]" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-                {/* Breadcrumbs */}
-                <nav className="mb-8 flex items-center gap-2 text-sm">
-                    <Link href="/" className="text-slate-400 hover:text-cyan-400 transition-colors">Home</Link>
-                    <svg className="w-4 h-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    <Link href="/usa/" className="text-slate-400 hover:text-cyan-400 transition-colors">States</Link>
-                    <svg className="w-4 h-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    <span className="text-white">{stateName}</span>
-                </nav>
+                {/* Breadcrumbs with Schema */}
+                <BreadcrumbSchema items={[
+                    { label: "States", href: "/usa/" },
+                    { label: stateName }
+                ]} />
+                <Breadcrumbs items={[
+                    { label: "States", href: "/usa/" },
+                    { label: stateName }
+                ]} />
 
                 {/* Header */}
                 <div className="mb-12">

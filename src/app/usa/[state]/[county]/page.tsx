@@ -4,12 +4,35 @@ import countiesData from "../../../../../data/counties.json";
 import CountyStats from "@/components/CountyStats";
 import AffiliateCard from "@/components/AffiliateCard";
 import HowToContent from "@/components/HowToContent";
+import Breadcrumbs, { BreadcrumbSchema } from "@/components/Breadcrumbs";
 
 interface PageProps {
     params: Promise<{
         state: string;
         county: string;
     }>;
+}
+
+interface County {
+    fips: string;
+    state: string;
+    stateSlug: string;
+    county: string;
+    countySlug: string;
+    maxAvailableSpeed: number;
+    estimatedSpeed: number;
+    topProvider: string;
+    ruralStatus: boolean;
+    costOfLivingIndex: number;
+    speedRating: string;
+    remoteWorkScore: number;
+    coverage: {
+        speed10_1: number;
+        speed25_3: number;
+        speed100_20: number;
+        speed250_25: number;
+        speed1000_100: number;
+    };
 }
 
 // Generate static paths for all counties at build time
@@ -58,18 +81,72 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 // Helper to get state abbreviation
 function getStateAbbreviation(state: string): string {
     const abbreviations: Record<string, string> = {
-        'Texas': 'TX',
-        'Colorado': 'CO',
-        'Montana': 'MT',
-        'New Mexico': 'NM',
-        'Oregon': 'OR',
-        'Vermont': 'VT',
-        'Wyoming': 'WY',
-        'Maine': 'ME',
-        'Idaho': 'ID',
-        'Arizona': 'AZ',
+        'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR', 'California': 'CA',
+        'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE', 'Florida': 'FL', 'Georgia': 'GA',
+        'Hawaii': 'HI', 'Idaho': 'ID', 'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA',
+        'Kansas': 'KS', 'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 'Maryland': 'MD',
+        'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN', 'Mississippi': 'MS', 'Missouri': 'MO',
+        'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV', 'New Hampshire': 'NH', 'New Jersey': 'NJ',
+        'New Mexico': 'NM', 'New York': 'NY', 'North Carolina': 'NC', 'North Dakota': 'ND', 'Ohio': 'OH',
+        'Oklahoma': 'OK', 'Oregon': 'OR', 'Pennsylvania': 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC',
+        'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT', 'Vermont': 'VT',
+        'Virginia': 'VA', 'Washington': 'WA', 'West Virginia': 'WV', 'Wisconsin': 'WI', 'Wyoming': 'WY',
+        'District of Columbia': 'DC', 'Puerto Rico': 'PR',
     };
     return abbreviations[state] || state;
+}
+
+// Generate FAQ data
+function generateFAQs(county: County) {
+    const stateAbbr = getStateAbbreviation(county.state);
+    return [
+        {
+            question: `What is the average internet speed in ${county.county}, ${stateAbbr}?`,
+            answer: `${county.county}, ${county.state} has an estimated average internet speed of ${county.estimatedSpeed} Mbps, with maximum available speeds reaching up to ${county.maxAvailableSpeed} Mbps. This is rated as "${county.speedRating}" for remote work purposes.`
+        },
+        {
+            question: `Who is the main internet provider in ${county.county}, ${stateAbbr}?`,
+            answer: `The top internet service provider in ${county.county} is ${county.topProvider}. They offer speeds up to ${county.maxAvailableSpeed} Mbps in the area. We recommend contacting ${county.topProvider} directly to verify service availability at your specific address.`
+        },
+        {
+            question: `Is ${county.county}, ${stateAbbr} good for remote work?`,
+            answer: `${county.county} has a Remote Work Score of ${county.remoteWorkScore}/100, which indicates it is ${county.remoteWorkScore >= 80 ? 'excellent' : county.remoteWorkScore >= 60 ? 'good' : county.remoteWorkScore >= 40 ? 'adequate' : 'challenging'} for remote work. With ${county.estimatedSpeed} Mbps average speeds, you can ${county.estimatedSpeed >= 100 ? 'easily handle video calls, large file transfers, and multiple users simultaneously' : county.estimatedSpeed >= 50 ? 'comfortably handle video calls and most remote work tasks' : 'handle basic remote work tasks, though heavy data usage may be limited'}.`
+        },
+        {
+            question: `What is the cost of living in ${county.county}, ${stateAbbr}?`,
+            answer: `${county.county} has a cost of living index of ${county.costOfLivingIndex}, which is ${county.costOfLivingIndex < 100 ? `${100 - county.costOfLivingIndex}% below` : county.costOfLivingIndex > 100 ? `${county.costOfLivingIndex - 100}% above` : 'equal to'} the national average. Combined with ${county.ruralStatus ? 'its rural setting' : 'its location'}, this makes it ${county.costOfLivingIndex <= 95 ? 'an affordable' : county.costOfLivingIndex <= 105 ? 'a moderately priced' : 'a higher cost'} option for remote workers.`
+        },
+        {
+            question: `Can I work from home with video calls in ${county.county}?`,
+            answer: `Yes! With estimated speeds of ${county.estimatedSpeed} Mbps, ${county.county} ${county.estimatedSpeed >= 25 ? 'easily supports video conferencing applications like Zoom, Microsoft Teams, and Google Meet. You should experience smooth, uninterrupted video calls' : 'can support basic video calls, though you may experience occasional quality issues during peak usage times'}. We recommend a minimum of 25 Mbps for reliable video conferencing.`
+        }
+    ];
+}
+
+// Find similar counties based on score and speed
+function findSimilarCounties(county: County, allCounties: County[], limit: number = 4) {
+    // Filter out current county and find similar ones
+    const others = allCounties.filter(
+        c => !(c.stateSlug === county.stateSlug && c.countySlug === county.countySlug)
+    );
+
+    // Calculate similarity score based on remote work score and speed
+    const withSimilarity = others.map(c => ({
+        county: c,
+        similarity:
+            Math.abs(c.remoteWorkScore - county.remoteWorkScore) * 2 +
+            Math.abs(c.estimatedSpeed - county.estimatedSpeed) / 10 +
+            Math.abs(c.costOfLivingIndex - county.costOfLivingIndex) / 5
+    }));
+
+    // Sort by similarity (lower is more similar) and prefer different states for diversity
+    withSimilarity.sort((a, b) => {
+        // Slight preference for different states (for diversity)
+        const stateBonus = (a.county.state !== county.state ? -5 : 0) - (b.county.state !== county.state ? -5 : 0);
+        return (a.similarity + stateBonus) - (b.similarity + stateBonus);
+    });
+
+    return withSimilarity.slice(0, limit).map(s => s.county);
 }
 
 export default async function CountyPage({ params }: PageProps) {
@@ -77,7 +154,7 @@ export default async function CountyPage({ params }: PageProps) {
 
     const county = countiesData.counties.find(
         (c) => c.stateSlug === state && c.countySlug === countySlug
-    );
+    ) as County | undefined;
 
     if (!county) {
         return (
@@ -94,25 +171,51 @@ export default async function CountyPage({ params }: PageProps) {
     }
 
     const stateAbbr = getStateAbbreviation(county.state);
+    const faqs = generateFAQs(county);
 
     // Get other counties in the same state for related links
-    const relatedCounties = countiesData.counties
+    const relatedCounties = (countiesData.counties as County[])
         .filter((c) => c.state === county.state && c.countySlug !== county.countySlug)
+        .sort((a, b) => b.remoteWorkScore - a.remoteWorkScore)
         .slice(0, 4);
+
+    // Get similar counties from other states
+    const similarCounties = findSimilarCounties(county, countiesData.counties as County[], 4);
+
+    // Generate FAQ Schema JSON-LD
+    const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": faqs.map(faq => ({
+            "@type": "Question",
+            "name": faq.question,
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": faq.answer
+            }
+        }))
+    };
 
     return (
         <div className="min-h-screen">
+            {/* FAQ Schema Markup */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
+
             {/* Hero Section */}
             <section className="relative py-16 lg:py-24 overflow-hidden">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    {/* Breadcrumbs */}
-                    <nav className="mb-8 flex items-center gap-2 text-sm text-slate-400">
-                        <Link href="/" className="hover:text-primary-400 transition-colors">Home</Link>
-                        <span>/</span>
-                        <Link href={`/usa/${county.stateSlug}/`} className="hover:text-primary-400 transition-colors">{county.state}</Link>
-                        <span>/</span>
-                        <span className="text-white">{county.county}</span>
-                    </nav>
+                    {/* Breadcrumbs with Schema */}
+                    <BreadcrumbSchema items={[
+                        { label: county.state, href: `/usa/${county.stateSlug}/` },
+                        { label: county.county }
+                    ]} />
+                    <Breadcrumbs items={[
+                        { label: county.state, href: `/usa/${county.stateSlug}/` },
+                        { label: county.county }
+                    ]} />
 
                     {/* Header */}
                     <div className="max-w-4xl">
@@ -142,10 +245,10 @@ export default async function CountyPage({ params }: PageProps) {
                                 View Recommendations
                             </a>
                             <Link
-                                href={`/usa/${county.stateSlug}/`}
+                                href={`/compare/?counties=${county.stateSlug}-${county.countySlug}`}
                                 className="px-6 py-3 rounded-full border border-slate-600 hover:border-primary-500 transition-colors"
                             >
-                                Browse {county.state}
+                                Compare This County
                             </Link>
                         </div>
                     </div>
@@ -255,7 +358,88 @@ export default async function CountyPage({ params }: PageProps) {
                 </div>
             </section>
 
-            {/* Related Counties */}
+            {/* FAQ Section */}
+            <section className="py-16 bg-slate-900/30">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 className="section-title">Frequently Asked Questions</h2>
+                    <p className="text-slate-400 mb-8 max-w-2xl">
+                        Common questions about internet and remote work in {county.county}, {stateAbbr}.
+                    </p>
+
+                    <div className="space-y-4 max-w-4xl">
+                        {faqs.map((faq, index) => (
+                            <details
+                                key={index}
+                                className="glass group"
+                            >
+                                <summary className="flex items-center justify-between cursor-pointer p-6 text-white font-medium hover:text-cyan-400 transition-colors list-none">
+                                    <span>{faq.question}</span>
+                                    <svg className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </summary>
+                                <div className="px-6 pb-6 text-slate-300 leading-relaxed border-t border-slate-700/50 pt-4">
+                                    {faq.answer}
+                                </div>
+                            </details>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Similar Counties (Cross-State) */}
+            {similarCounties.length > 0 && (
+                <section className="py-16">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <h2 className="section-title">Similar Counties to Consider</h2>
+                        <p className="text-slate-400 mb-8 max-w-2xl">
+                            Other rural counties with similar internet speeds and remote work scores.
+                        </p>
+
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {similarCounties.map((similar) => (
+                                <Link
+                                    key={`${similar.stateSlug}-${similar.countySlug}`}
+                                    href={`/usa/${similar.stateSlug}/${similar.countySlug}/`}
+                                    className="glass-card-hover p-6 group"
+                                >
+                                    <div className="flex items-start justify-between mb-3">
+                                        <div>
+                                            <h3 className="font-bold text-white group-hover:text-cyan-400 transition-colors">
+                                                {similar.county}
+                                            </h3>
+                                            <p className="text-sm text-slate-400">{similar.state}</p>
+                                        </div>
+                                        <div className="score-badge text-sm">
+                                            {similar.remoteWorkScore}
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-2 text-sm">
+                                        <div className="flex justify-between">
+                                            <span className="text-slate-400">Speed</span>
+                                            <span className="text-cyan-400 font-medium">{similar.estimatedSpeed} Mbps</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-slate-400">Cost Index</span>
+                                            <span className="text-white">{similar.costOfLivingIndex}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-4 pt-3 border-t border-slate-700/50 text-cyan-400 text-sm font-medium group-hover:translate-x-1 transition-transform flex items-center">
+                                        View Details
+                                        <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* Related Counties (Same State) */}
             {relatedCounties.length > 0 && (
                 <section className="py-16 bg-slate-900/30">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -276,6 +460,18 @@ export default async function CountyPage({ params }: PageProps) {
                                     </p>
                                 </Link>
                             ))}
+                        </div>
+
+                        <div className="mt-6 text-center">
+                            <Link
+                                href={`/usa/${county.stateSlug}/`}
+                                className="btn-secondary inline-flex"
+                            >
+                                View All {county.state} Counties
+                                <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </Link>
                         </div>
                     </div>
                 </section>
@@ -298,9 +494,14 @@ export default async function CountyPage({ params }: PageProps) {
                         <p className="text-slate-300 mb-6">
                             Compare internet speeds across {countiesData.totalCounties} rural counties in {countiesData.states.length} states.
                         </p>
-                        <Link href="/" className="btn-primary inline-block">
-                            View All Counties
-                        </Link>
+                        <div className="flex flex-wrap justify-center gap-4">
+                            <Link href="/usa/" className="btn-primary inline-block">
+                                Browse All Counties
+                            </Link>
+                            <Link href="/compare/" className="btn-secondary inline-block">
+                                Compare Counties
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </section>

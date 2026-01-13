@@ -3,9 +3,13 @@ import dynamic from 'next/dynamic';
 import countiesData from "../../data/counties.json";
 import HomeClient from "./HomeClient";
 import AffiliateSection from "@/components/AffiliateSection";
+import { MapSkeleton, CountyCardSkeleton } from "@/components/Skeletons";
 
-// Dynamically import US Map to avoid SSR issues
-const USAMap = dynamic(() => import('@/components/USAMap'), { ssr: false });
+// Dynamically import US Map to avoid SSR issues with loading skeleton
+const USAMap = dynamic(() => import('@/components/USAMap'), {
+    ssr: false,
+    loading: () => <MapSkeleton />
+});
 
 export default function Home() {
     const { counties, states, totalCounties } = countiesData;

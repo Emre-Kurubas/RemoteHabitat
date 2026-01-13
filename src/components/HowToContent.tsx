@@ -112,50 +112,6 @@ export default function HowToContent({ county, state, estimatedSpeed }: HowToCon
                             </p>
                         </div>
                     </div>
-
-                    {/* FAQ Section */}
-                    <h3 className="text-xl font-semibold text-white mb-4 mt-8">
-                        Frequently Asked Questions
-                    </h3>
-                    <div className="space-y-4">
-                        <div className="glass-card p-5">
-                            <summary className="font-semibold text-white mb-2">
-                                Is {estimatedSpeed} Mbps fast enough for remote work?
-                            </summary>
-                            <p className="mt-4 text-slate-300">
-                                {estimatedSpeed >= 100
-                                    ? `Yes! ${estimatedSpeed} Mbps is excellent for remote work, including 4K video calls, large file transfers, and multiple users simultaneously.`
-                                    : estimatedSpeed >= 50
-                                        ? `${estimatedSpeed} Mbps is good for most remote work tasks. You'll handle video calls and cloud applications without issues, though very large file transfers may take longer.`
-                                        : estimatedSpeed >= 25
-                                            ? `${estimatedSpeed} Mbps is the minimum for comfortable remote work. Video calls will work, but consider having backup options during important meetings.`
-                                            : `${estimatedSpeed} Mbps is below the recommended minimum for remote work. You may experience issues with video calls. Consider Starlink or mobile hotspot alternatives.`
-                                }
-                            </p>
-                        </div>
-
-                        <div className="glass-card p-5">
-                            <h4 className="font-semibold text-white mb-2">
-                                What are my internet options in {county}?
-                            </h4>
-                            <p className="text-slate-400 text-sm">
-                                Rural areas typically have options including fiber (where available), DSL, fixed wireless,
-                                satellite internet (Starlink, HughesNet), and cellular hotspots. We recommend checking
-                                availability at your specific address before committing to a location.
-                            </p>
-                        </div>
-
-                        <div className="glass-card p-5">
-                            <h4 className="font-semibold text-white mb-2">
-                                How reliable is rural internet?
-                            </h4>
-                            <p className="text-slate-400 text-sm">
-                                Reliability varies significantly by provider and location. Fiber connections are most reliable,
-                                followed by fixed wireless. Satellite internet can be affected by weather. Always ask potential
-                                neighbors about their experience with local providers.
-                            </p>
-                        </div>
-                    </div>
                 </article>
             </div>
         </section>

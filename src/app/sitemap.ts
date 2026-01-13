@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import countiesData from '../../data/counties.json';
+import { getAllPosts } from '@/data/blog-posts';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://remotehabitat.org';
@@ -19,7 +20,52 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'weekly',
             priority: 0.9,
         },
+        {
+            url: `${baseUrl}/compare`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly',
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/blog`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly',
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/about`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly',
+            priority: 0.5,
+        },
+        {
+            url: `${baseUrl}/privacy`,
+            lastModified: currentDate,
+            changeFrequency: 'yearly',
+            priority: 0.3,
+        },
+        {
+            url: `${baseUrl}/terms`,
+            lastModified: currentDate,
+            changeFrequency: 'yearly',
+            priority: 0.3,
+        },
+        {
+            url: `${baseUrl}/affiliate-disclosure`,
+            lastModified: currentDate,
+            changeFrequency: 'yearly',
+            priority: 0.3,
+        },
     ];
+
+    // Blog posts
+    const blogPosts = getAllPosts();
+    const blogPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+        url: `${baseUrl}/blog/${post.slug}`,
+        lastModified: post.date,
+        changeFrequency: 'monthly' as const,
+        priority: 0.7,
+    }));
 
     // State pages
     const statePages: MetadataRoute.Sitemap = countiesData.states.map((state) => ({
@@ -37,5 +83,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.6,
     }));
 
-    return [...staticPages, ...statePages, ...countyPages];
+    return [...staticPages, ...blogPages, ...statePages, ...countyPages];
 }
